@@ -20,6 +20,6 @@ public class PautaApplicationService implements PautaService {
         log.info("[novaPauta] {}", novaPauta);
         Pauta pauta = pautaRepository.salva(new Pauta(novaPauta));
         log.info("[finish] PautaApplicationService - cadastraPauta");
-        return null;
+        return new PautaCadastradaResponse(pauta);
     }
 }
