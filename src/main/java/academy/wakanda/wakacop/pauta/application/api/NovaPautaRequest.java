@@ -11,7 +11,7 @@ import java.util.UUID;
 @ToString
 public class NovaPautaRequest {
     @NotBlank
-    private String título;
+    private String titulo;
     @NotBlank
     private String descricao;
     @NotNull

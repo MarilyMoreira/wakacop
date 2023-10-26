@@ -1,5 +1,6 @@
 package academy.wakanda.wakacop.pauta.domain;
 
+import academy.wakanda.wakacop.pauta.application.api.NovaPautaRequest;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -18,10 +19,17 @@ public class Pauta {
     @Column(columnDefinition = "uuid", updatable = false, unique = true, nullable = false)
     private UUID id;
     @NotBlank
-    private String título;
+    private String titulo;
     @NotBlank
     private String descricao;
     @NotNull
     private UUID idAssociadoAutor;
     private LocalDateTime dataCriacao;
+
+    public Pauta(NovaPautaRequest novaPauta) {
+        this.titulo = novaPauta.getTitulo();
+        this.descricao = novaPauta.getDescricao();
+        this.idAssociadoAutor = novaPauta.getIdAssociadoAutor();
+        this.dataCriacao = LocalDateTime.now();
+    }
 }
