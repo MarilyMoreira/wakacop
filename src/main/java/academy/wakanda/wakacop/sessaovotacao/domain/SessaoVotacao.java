@@ -2,6 +2,7 @@ package academy.wakanda.wakacop.sessaovotacao.domain;
 
 import academy.wakanda.wakacop.handler.APIException;
 import academy.wakanda.wakacop.pauta.domain.Pauta;
+import academy.wakanda.wakacop.sessaovotacao.application.api.ResultadoSessaoResponse;
 import academy.wakanda.wakacop.sessaovotacao.application.api.SessaoAberturaRequest;
 import academy.wakanda.wakacop.sessaovotacao.application.api.VotoRequest;
 import lombok.AccessLevel;
@@ -32,7 +33,10 @@ public class SessaoVotacao {
     private LocalDateTime momentoAbertura;
     private LocalDateTime momentoEncerramento;
 
-    @OneToMany(mappedBy = "sessaoVotacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(
+            mappedBy = "sessaoVotacao",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     @MapKey(name = "cpfAssociado")
     private Map<String, VotoPauta> votos;
@@ -77,5 +81,28 @@ public class SessaoVotacao {
         if (this.votos.containsKey(cpfAssociado)) {
             APIException.build(HttpStatus.NOT_FOUND, "Associado Já Votou nessa Sessão!");
         }
+    }
+
+    public ResultadoSessaoResponse obtemResultado() {
+        atualizaStatus();
+        return new ResultadoSessaoResponse(this);
+    }
+
+    public Long getTotalVotos() {
+        return Long.valueOf(this.votos.size());
+    }
+
+    public Long getTotalSim() {
+        return calculaVotosPorOpcao(OpcaoVoto.SIM);
+    }
+
+    public Long getTotalNao() {
+        return calculaVotosPorOpcao(OpcaoVoto.NAO);
+    }
+
+    private Long calculaVotosPorOpcao(OpcaoVoto opcaoVoto) {
+        return votos.values().stream()
+                .filter(voto -> voto.opcaoIgual(opcao))
+                .count();
     }
 }
