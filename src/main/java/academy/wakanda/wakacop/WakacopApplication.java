@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WakacopApplication {
 	@GetMapping
 	public String testeHome() {
-		return "Teste Home Wakacop";
+		return "Teste] Home Wakacop";
 	}
 	public static void main(String[] args) {
 
