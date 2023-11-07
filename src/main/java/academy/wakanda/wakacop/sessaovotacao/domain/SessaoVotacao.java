@@ -79,7 +79,7 @@ public class SessaoVotacao {
 
     private void validaAssociado(String cpfAssociado) {
         if (this.votos.containsKey(cpfAssociado)) {
-            APIException.build(HttpStatus.NOT_FOUND, "Associado Já Votou nessa Sessão!");
+            throw APIException.build(HttpStatus.NOT_FOUND, "Associado Já Votou nessa Sessão!");
         }
     }
 
@@ -100,7 +100,7 @@ public class SessaoVotacao {
         return calculaVotosPorOpcao(OpcaoVoto.NAO);
     }
 
-    private Long calculaVotosPorOpcao(OpcaoVoto opcaoVoto) {
+    private Long calculaVotosPorOpcao(OpcaoVoto opcao) {
         return votos.values().stream()
                 .filter(voto -> voto.opcaoIgual(opcao))
                 .count();

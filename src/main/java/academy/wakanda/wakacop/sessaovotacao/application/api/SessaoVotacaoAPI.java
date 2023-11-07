@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/sessao/abertura")
+@RequestMapping("/sessao")
 public interface SessaoVotacaoAPI {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/abertura")
